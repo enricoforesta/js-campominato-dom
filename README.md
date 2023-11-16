@@ -28,3 +28,6 @@ eventuali problemi.
 - se clicchiamo una cella già cliccata, non dobbiamo sommarlo al numero di interazioni.
 
 
+Funzione fine partita, la partita finisce se
+- il numero cliccato è presente nell array, 
+- interazioni finite range-16.

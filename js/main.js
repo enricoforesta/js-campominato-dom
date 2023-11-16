@@ -11,25 +11,27 @@ function campoMinatoFunc() {
 
     const level = document.getElementById("select");
     const levelValue = +level.value;
-    console.log(levelValue)
+    console.log("difficoltà " + levelValue)
 
     const numeroCell = numeroCellFunc(levelValue);
-    console.log(numeroCell);
-
-    gridFunc(containerGrid, numeroCell, "bg");
-
+    console.log("range " + numeroCell);
 
     const bombArray = randomFunc(numeroCell);
-    console.log(bombArray)
+    console.log(bombArray);
+
+    gridFunc(containerGrid, numeroCell, "bg", "bg-bomb", bombArray);
 
 }
 // Funzione numero casuali
 function randomFunc(cellNumber) {
     const bombArray = [];
 
-    for (let i = 0; i < 16; i++) {
+    while (bombArray.length < numberBomb) {
         const random = Math.round(Math.random() * cellNumber + 1);
-        bombArray.push(random);
+
+        if (!bombArray.includes(random)) {
+            bombArray.push(random);
+        }
     }
     return bombArray;
 }
@@ -64,14 +66,30 @@ function numeroCellFunc(level) {
 }
 
 //Funzioni per le celle
-function gridFunc(mainElement, cellNumber, className) {
+function gridFunc(mainElement, cellNumber, className, classNameBomb, array) {
+    let clickScore = 0;
+
 
     for (let i = 1; i <= cellNumber; i++) {
         const createElement = createElementFunc("div", "cell", i);
         createElement.classList.add(`cell-${cellNumber}`)
         createElement.addEventListener("click", function () {
-            createElement.classList.add(className)
-            console.log(`Ho cliccato ${i}`)
+
+            if (!createElement.classList.contains(classNameBomb) && !createElement.classList.contains(className)) {
+                if (array.includes(i)) {
+                    createElement.classList.add(classNameBomb)
+                    endGameFunc(clickScore);
+
+                } else {
+                    createElement.classList.add(className)
+                    clickScore++;
+                    scoreUpFunc(clickScore);
+                    if (clickScore === cellNumber - numberBomb) {
+                        winGameFunc(clickScore);
+                    }
+                    console.log(`Ho cliccato ${i}`)
+                }
+            }
         })
         mainElement.append(createElement)
     }
@@ -83,10 +101,29 @@ function resetFunc() {
     containerGrid.innerHTML = "";
 }
 
+//Funzione aggiornamento punteggio
+function scoreUpFunc(score) {
+    const scores = document.querySelector(".scores")
+    scores.innerHTML = `Il tuo punteggio è ${score}` // ritorno risultato dal clickScore
+}
+
+//Funzione fine partita
+function endGameFunc(end) {
+    const scores = document.querySelector(".scores")
+    scores.innerHTML += ` Mi dispiace, hai perso :'( PUNTI: ${end}`
+    
+}
+
+//Funzione partita vinta
+function winGameFunc(win) {
+    const scores = document.querySelector(".scores")
+    scores.innerHTML += ` Complimenti, hai vinto!!! PUNTI: ${win}`
+}
 
 /*------------------------------------------------*/
 
 // Operazioni
+let numberBomb = 48;
 const start = document.querySelector(".button");
 start.addEventListener("click", campoMinatoFunc);
 

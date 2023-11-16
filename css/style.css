@@ -95,3 +95,7 @@ main .container-main.d-none{
 .bg{
     background-color: skyblue;
 }
+
+.bg-bomb{
+    background-color: red;
+}

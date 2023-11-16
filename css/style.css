@@ -1,0 +1,97 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* COMUNI */
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+}
+
+header,
+footer {
+    padding: 20px;
+}
+
+main {
+    flex-grow: 1;
+    background-color: aquamarine;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    display: block;
+}
+
+
+/* HEADER */
+.title {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.title span{
+    margin-left: auto;
+    font-size: 20px;
+}
+
+.button {
+    font-weight: 900;
+    width: 100px;
+    height: 30px;
+}
+
+#select{
+    font-weight: 700;
+    width: 200px;
+    height: 30px;
+    background-color: #e9e9ed;
+    border-radius: 3px;
+}
+
+/* MAIN */
+main .container-main.d-none{
+    display: none;
+}
+
+.container-main {
+    padding: 50px 0;
+    width: 700px;
+    height: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.cell {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cell-100 {
+    width: calc(100% / 10);
+    height: calc(100% / 10);
+}
+.cell-81 {
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+}
+.cell-49 {
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+}
+
+.bg{
+    background-color: skyblue;
+}

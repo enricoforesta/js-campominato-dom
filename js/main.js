@@ -16,16 +16,17 @@ function campoMinatoFunc() {
     const numeroCell = numeroCellFunc(levelValue);
     console.log("range " + numeroCell);
 
-    const bombArray = randomFunc(numeroCell);
+    let numberBomb = 16;
+
+    const bombArray = randomFunc(numberBomb, numeroCell);
     console.log(bombArray);
 
-    gridFunc(containerGrid, numeroCell, "bg", "bg-bomb", bombArray);
+    gridFunc(containerGrid, numeroCell, "bg", "bg-bomb", bombArray, numberBomb);
 
 }
 // Funzione numero casuali
-function randomFunc(cellNumber) {
+function randomFunc(numberBomb, cellNumber) {
     const bombArray = [];
-
     while (bombArray.length < numberBomb) {
         const random = Math.round(Math.random() * cellNumber + 1);
 
@@ -35,8 +36,6 @@ function randomFunc(cellNumber) {
     }
     return bombArray;
 }
-
-
 
 //Funzione per creare un singolo elemento
 function createElementFunc(tag, className, content) {
@@ -62,34 +61,35 @@ function numeroCellFunc(level) {
             break;
     }
     return numeroCell;
-
 }
 
 //Funzioni per le celle
-function gridFunc(mainElement, cellNumber, className, classNameBomb, array) {
+function gridFunc(mainElement, cellNumber, className, classNameBomb, array, numberBomb) {
     let clickScore = 0;
-
+    const scores = document.querySelector(".scores")
+    let play = true
 
     for (let i = 1; i <= cellNumber; i++) {
         const createElement = createElementFunc("div", "cell", i);
         createElement.classList.add(`cell-${cellNumber}`)
-        createElement.addEventListener("click", function () {
+        createElement.addEventListener("click", function (e) {
 
-            if (!createElement.classList.contains(classNameBomb) && !createElement.classList.contains(className)) {
-                if (array.includes(i)) {
-                    createElement.classList.add(classNameBomb)
-                    endGameFunc(clickScore);
-
-                } else {
-                    createElement.classList.add(className)
-                    clickScore++;
-                    scoreUpFunc(clickScore);
-                    if (clickScore === cellNumber - numberBomb) {
-                        winGameFunc(clickScore);
-                    }
-                    console.log(`Ho cliccato ${i}`)
+            if (e.target.classList.contains(className)) return;
+            if (!play) return;
+            if (array.includes(i)) {
+                createElement.classList.add(classNameBomb)
+                scores.innerHTML = `Mi dispiace, hai perso :'( PUNTI: ${clickScore}`
+                play = false;
+            } else {
+                createElement.classList.add(className)
+                clickScore++;
+                scores.innerHTML = `Il tuo punteggio è ${clickScore}`
+                if (clickScore === cellNumber - numberBomb) {
+                    scores.innerHTML = `Complimenti, hai vinto!!! PUNTI: ${clickScore}`
                 }
+                console.log(`Ho cliccato ${i}`)
             }
+
         })
         mainElement.append(createElement)
     }
@@ -101,29 +101,9 @@ function resetFunc() {
     containerGrid.innerHTML = "";
 }
 
-//Funzione aggiornamento punteggio
-function scoreUpFunc(score) {
-    const scores = document.querySelector(".scores")
-    scores.innerHTML = `Il tuo punteggio è ${score}` // ritorno risultato dal clickScore
-}
-
-//Funzione fine partita
-function endGameFunc(end) {
-    const scores = document.querySelector(".scores")
-    scores.innerHTML += ` Mi dispiace, hai perso :'( PUNTI: ${end}`
-    
-}
-
-//Funzione partita vinta
-function winGameFunc(win) {
-    const scores = document.querySelector(".scores")
-    scores.innerHTML += ` Complimenti, hai vinto!!! PUNTI: ${win}`
-}
-
 /*------------------------------------------------*/
 
 // Operazioni
-let numberBomb = 48;
 const start = document.querySelector(".button");
 start.addEventListener("click", campoMinatoFunc);
 

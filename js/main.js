@@ -99,6 +99,8 @@ function gridFunc(mainElement, cellNumber, className, classNameBomb, array, numb
 function resetFunc() {
     const containerGrid = document.querySelector(".container-main");
     containerGrid.innerHTML = "";
+    const scores = document.querySelector(".scores")
+    scores.innerHTML = ""
 }
 
 /*------------------------------------------------*/
